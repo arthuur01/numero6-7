@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Processamento de Vetor e Matriz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+    h2 {
+      margin-top: 30px;
+    }
+    input {
+      width: 50px;
+      margin: 5px;
+      text-align: center;
+    }
+    button {
+      margin: 10px 0;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    pre {
+      background: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #ccc;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Processamento de Vetor e Matriz</h1>
+
+  <!-- VETOR -->
+  <h2>Vetor (10 posições)</h2>
+  <div id="vetorInputs"></div>
+  <button onclick="processarVetor()">Processar Vetor</button>
+  <pre id="vetorResultado"></pre>
+
+  <!-- MATRIZ -->
+  <h2>Matriz (5x5)</h2>
+  <div id="matrizInputs"></div>
+  <button onclick="processarMatriz()">Processar Matriz</button>
+  <pre id="matrizResultado"></pre>
+
+  <script>
+    // ==========================
+    // 1) PROCESSAMENTO DO VETOR
+    // ==========================
+    const vetorInputsDiv = document.getElementById("vetorInputs");
+    for (let i = 0; i < 10; i++) {
+      const input = document.createElement("input");
+      input.type = "number";
+      input.id = "v" + i;
+      vetorInputsDiv.appendChild(input);
+    }
+
+    function lerVetor() {
+      let vetor = [];
+      for (let i = 0; i < 10; i++) {
+        vetor.push(parseInt(document.getElementById("v" + i).value) || 0);
+      }
+      return vetor;
+    }
+
+    function imprimirVetor(vetor) {
+      return "Vetor (início → fim): " + vetor.join(", ");
+    }
+
+    function imprimirVetorInvertido(vetor) {
+      return "Vetor (fim → início): " + vetor.slice().reverse().join(", ");
+    }
+
+    function imprimirPosicoesImpares(vetor) {
+      let impares = [];
+      for (let i = 1; i < vetor.length; i += 2) {
+        impares.push(vetor[i]);
+      }
+      return "Valores nas posições ímpares: " + impares.join(", ");
+    }
+
+    function somaPosicoesPares(vetor) {
+      let soma = 0;
+      for (let i = 0; i < vetor.length; i += 2) {
+        soma += vetor[i];
+      }
+      return soma;
+    }
+
+    function maiorValorVetor(vetor) {
+      return Math.max(...vetor);
+    }
+
+    function processarVetor() {
+      let vetor = lerVetor();
+      let resultado = "";
+      resultado += imprimirVetor(vetor) + "\n";
+      resultado += imprimirVetorInvertido(vetor) + "\n";
+      resultado += imprimirPosicoesImpares(vetor) + "\n";
+      resultado += "Soma das posições pares: " + somaPosicoesPares(vetor) + "\n";
+      resultado += "Maior valor do vetor: " + maiorValorVetor(vetor) + "\n";
+
+      document.getElementById("vetorResultado").innerText = resultado;
+    }
+
+    // ==========================
+    // 2) PROCESSAMENTO DA MATRIZ
+    // ==========================
+    const matrizInputsDiv = document.getElementById("matrizInputs");
+    for (let i = 0; i < 5; i++) {
+      let rowDiv = document.createElement("div");
+      for (let j = 0; j < 5; j++) {
+        const input = document.createElement("input");
+        input.type = "number";
+        input.id = `m${i}${j}`;
+        rowDiv.appendChild(input);
+      }
+      matrizInputsDiv.appendChild(rowDiv);
+    }
+
+    function preencherMatriz() {
+      let matriz = [];
+      for (let i = 0; i < 5; i++) {
+        let linha = [];
+        for (let j = 0; j < 5; j++) {
+          linha.push(parseInt(document.getElementById(`m${i}${j}`).value) || 0);
+        }
+        matriz.push(linha);
+      }
+      return matriz;
+    }
+
+    function imprimirMatriz(matriz) {
+      return "Matriz:\n" + matriz.map(linha => linha.join("\t")).join("\n");
+    }
+
+    function imprimirDiagonalPrincipal(matriz) {
+      let dp = [];
+      for (let i = 0; i < 5; i++) {
+        dp.push(matriz[i][i]);
+      }
+      return "Diagonal principal: " + dp.join(", ");
+    }
+
+    function imprimirDiagonalSecundaria(matriz) {
+      let ds = [];
+      for (let i = 0; i < 5; i++) {
+        ds.push(matriz[i][4 - i]);
+      }
+      return "Diagonal secundária: " + ds.join(", ");
+    }
+
+    function imprimirLinhasImpares(matriz) {
+      let li = [];
+      for (let i = 1; i < 5; i += 2) {
+        li.push(matriz[i].join(", "));
+      }
+      return "Linhas ímpares:\n" + li.join("\n");
+    }
+
+    function imprimirColunasPares(matriz) {
+      let cp = [];
+      for (let i = 0; i < 5; i++) {
+        let linha = [];
+        for (let j = 0; j < 5; j += 2) {
+          linha.push(matriz[i][j]);
+        }
+        cp.push(linha.join(", "));
+      }
+      return "Colunas pares:\n" + cp.join("\n");
+    }
+
+    function imprimirLinhasParesColunasImpares(matriz) {
+      let resultado = [];
+      for (let i = 0; i < 5; i += 2) {
+        let linha = [];
+        for (let j = 1; j < 5; j += 2) {
+          linha.push(matriz[i][j]);
+        }
+        resultado.push(linha.join(", "));
+      }
+      return "Linhas pares e colunas ímpares:\n" + resultado.join("\n");
+    }
+
+    function processarMatriz() {
+      let matriz = preencherMatriz();
+      let resultado = "";
+      resultado += imprimirMatriz(matriz) + "\n";
+      resultado += imprimirDiagonalPrincipal(matriz) + "\n";
+      resultado += imprimirDiagonalSecundaria(matriz) + "\n";
+      resultado += imprimirLinhasImpares(matriz) + "\n";
+      resultado += imprimirColunasPares(matriz) + "\n";
+      resultado += imprimirLinhasParesColunasImpares(matriz) + "\n";
+
+      document.getElementById("matrizResultado").innerText = resultado;
+    }
+  </script>
+</body>
+</html>
