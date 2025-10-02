@@ -1,5 +1,13 @@
 let vetor = [];
 
+//Funções do Vetor
+//Document get by id é aonde o resultado vai ser mostrado
+//
+
+
+
+
+
 function lerVetor(){
     const input = document.getElementById("vetorInput").value;
     vetor = input.split(",").map(Number).slice(0,10);
@@ -109,4 +117,5 @@ function linhascolunas(){
         result.push(linha.join(","));
     }
     document.getElementById("matrizOutput").innerText = "Elementos em linhas pares e colunas ímpares:\n" + result.join("\n");
+
 }
